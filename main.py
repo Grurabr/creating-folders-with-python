@@ -19,7 +19,7 @@ class App:
         self.entry = tk.Entry(self.root, width=30)
         self.entry.pack(pady=5)
 
-        # Buttons "ОК" and "Отмена"
+        # Buttons "ОК" and "Cansel"
         button_frame = tk.Frame(self.root)
         button_frame.pack(pady=10)
 
