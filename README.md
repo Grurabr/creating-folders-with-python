@@ -22,3 +22,5 @@ Creates multiple folders, files, and shortcuts for the project. The project name
 5. In the command line, navigate to the folder where the my_app.py file is located and execute the command:
    ```bash
    pyinstaller --onefile my_app.py
+
+6. After executing the command, an executable file will appear in the dist folder. On Windows, this will be a file with the .exe extension.
