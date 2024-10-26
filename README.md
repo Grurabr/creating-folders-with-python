@@ -11,7 +11,7 @@ Creates multiple folders, files, and shortcuts for the project. The project name
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Grurabr/creating-folders-with-python/blob/main/README.md
+   git clone https://github.com/Grurabr/creating-folders-with-python
 
 2. Use and modify the file in the editor as you wish.
 3. Open the command line and execute the command:
