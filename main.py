@@ -9,17 +9,17 @@ class App:
         self.root = root
         self.root.title("Kansion luominen. EA")
 
-        # Начальные размеры окна (без поля логов)
+        # Initial window dimensions (without log field)
         self.root.geometry("300x100")
 
-        # Поле для ввода имени
+        # Name input field
         self.label = tk.Label(self.root, text="Nimikenumero:")
         self.label.pack(pady=5)
 
         self.entry = tk.Entry(self.root, width=30)
         self.entry.pack(pady=5)
 
-        # Кнопки "ОК" и "Отмена"
+        # Buttons "ОК" and "Отмена"
         button_frame = tk.Frame(self.root)
         button_frame.pack(pady=10)
 
@@ -29,67 +29,67 @@ class App:
         cancel_button = tk.Button(button_frame, text="Peruuta", command=self.root.quit)
         cancel_button.pack(side="right", padx=5)
 
-        # Создание окна для логов (изначально скрыто)
+        # Create a window for logs (initially hidden)
         self.log_text = scrolledtext.ScrolledText(self.root, width=70, height=20, state="disabled")
         self.log_text.pack(pady=10)
-        self.log_text.pack_forget()  # Скрываем поле лога
+        self.log_text.pack_forget()
 
     def log(self, message):
-        """Функция для вывода логов в текстовое поле."""
+        """Function for outputting logs to a text field."""
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.log_text.config(state="normal")
         self.log_text.insert("end", f"{timestamp} - {message}\n")
         self.log_text.see("end")
         self.log_text.config(state="disabled")
-        print(f"{timestamp} - {message}")  # Для отладки в консоли
+        print(f"{timestamp} - {message}")
 
     def show_error_message(self, error_message):
         messagebox.showerror("Virhe", f"Virhe:\n{error_message}")
 
     def start_creation(self):
-        """Функция для запуска основной функции после нажатия кнопки 'ОК'."""
+        """Function to run the main function after pressing the 'OK' button."""
         nimike = self.entry.get().strip()
         if not nimike:
             self.show_error_message("Nimikenumero puuttuu.")
             return
 
-        # Очищаем и отображаем поле логов, увеличиваем окно
+        # Clear and display the log field, increase the window
         self.log_text.config(state="normal")
         self.log_text.delete("1.0", "end")
         self.log_text.config(state="disabled")
-        self.log_text.pack(pady=10)  # Показываем поле логов
+        self.log_text.pack(pady=10)
 
-        # Увеличиваем размеры окна
+
         self.root.geometry("600x400")
 
-        # Запускаем процесс создания папок и ссылок
+        # Launch the process of creating folders and links
         self.main(nimike.upper())
 
     def main(self, nimike):
         try:
-            # Переменные для путей
+            # Variables for paths
             tiedoston_haku_polku = r"C:\Kuvat"
             kansion_polku = fr"C:\Yhteiset\LAATU\Mittaukset\{nimike}"
             cmmOhjelman_polku = os.path.join(kansion_polku, "CMM Ohjelma", f"{nimike}.PRG")
             romerOhjelmanPolku = os.path.join(kansion_polku, "ROMER Ohjelma", f"{nimike}.mcam")
 
-            # Создание необходимых папок
+            # Create the necessary folders
             self.create_folder_if_not_exists(os.path.join(kansion_polku, "CMM Ohjelma"))
             self.create_folder_if_not_exists(os.path.join(kansion_polku, "CMM Raportti"))
             self.create_folder_if_not_exists(os.path.join(kansion_polku, "ROMER Raportti"))
             self.create_folder_if_not_exists(os.path.join(kansion_polku, "ROMER Ohjelma"))
             self.create_folder_if_not_exists(os.path.join(kansion_polku, "JIGI"))
 
-            # Создание ссылок на файлы, если они существуют
+            # Create links to files if they exist
             self.create_shortcut_if_file_exists(tiedoston_haku_polku, kansion_polku, nimike, ".pdf", "KUVA")
             self.create_shortcut_if_file_exists(tiedoston_haku_polku, kansion_polku, nimike, [".step", ".stp"], ".STEP")
             self.create_shortcut_if_file_exists(tiedoston_haku_polku, kansion_polku, f"{nimike}M", ".xls",
                                                 "MITTAPÖYTÄКIRJA")
 
-            # Создание ссылки на программу CMM
+            # Create a link to the CMM program
             self.create_shortcut(kansion_polku, nimike, cmmOhjelman_polku, "OHJELMA")
 
-            # Открыть папку с результатами
+            # Open the results folder
             os.startfile(kansion_polku)
             self.log("Operaatio suoritettiin onnistuneesti.")
 
@@ -135,7 +135,6 @@ class App:
             raise ImportError("Need install pywin32: pip install pywin32")
 
 
-# Инициализация и запуск окна
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
